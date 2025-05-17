@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Trauma Dump</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fff0f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #ff69b4;
+    }
+
+    #chat-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 1rem;
+    }
+
+    #userInput {
+      padding: 10px;
+      font-size: 1.2rem;
+      width: 300px;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    #submitBtn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    #response {
+      margin-top: 2rem;
+      font-size: 1.5rem;
+      color: #333;
+      min-height: 50px;
+      text-align: center;
+    }
+
+    #clown {
+      position: absolute;
+      font-size: 5rem;
+      top: 40%;
+      opacity: 0;
+      transition: opacity 1s ease;
+      z-index: 10;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 2rem;
+      animation: float 5s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      from {
+        transform: translateY(100vh);
+      }
+      to {
+        transform: translateY(-100vh);
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Trauma Dump</h1>
+  <div id="chat-box">
+    <input type="text" id="userInput" placeholder="Tell me your worst..." />
+    <button id="submitBtn">Dump It</button>
+    <div id="response"></div>
+  </div>
+
+  <div id="clown">🤡</div>
+
+  <audio id="clownSound" src="https://www.soundjay.com/human/sounds/clown-horn-1.mp3" preload="auto"></audio>
+
+
+
+  <script>
+    const input = document.getElementById("userInput");
+    const button = document.getElementById("submitBtn");
+    const responseDiv = document.getElementById("response");
+    const clown = document.getElementById("clown");
+    const clownSound = document.getElementById("clownSound");
+
+    const roasts = [
+      "lowkey judging you",
+      "ew",
+      "ur cooked",
+      "my life seems better ngl",
+      "bros got issues",
+      "kinda unhinged bro"
+    ];
+
+    function isAllCaps(text) {
+      return text === text.toUpperCase() && text.length > 3;
+    }
+
+    function showClownEffect() {
+      clown.style.opacity = 1;
+      clownSound.play();
+      setTimeout(() => {
+        clown.style.opacity = 0;
+      }, 1200);
+    }
+
+    function spawnHearts() {
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.textContent = Math.random() > 0.5 ? "❤️" : "💔";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (3 + Math.random() * 2) + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+      }
+    }
+
+    button.addEventListener("click", () => {
+      const userText = input.value.trim();
+      if (userText === "") return;
+
+      if (isAllCaps(userText)) {
+        showClownEffect();
+      }
+
+      const randomResponse = roasts[Math.floor(Math.random() * roasts.length)];
+      responseDiv.textContent = randomResponse;
+
+      spawnHearts();
+      input.value = "";
+    });
+  </script>
+</body>
+</html>
